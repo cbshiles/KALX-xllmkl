@@ -10,3 +10,5 @@ static AddIn xai_function(
 	.Documentation("Fastest and most used math library for Intel and compatible processors. ")
 );
 #endif // _DEBUG
+
+static Auto<Close> xac_free_buffers([](void) { mkl_free_buffers(); return 1; });

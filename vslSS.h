@@ -15,21 +15,21 @@ namespace vsl {
 		static int (*vslSSNewTask)(VSLSSTaskPtr* , MKL_INT* , MKL_INT* , MKL_INT* , double [], double [], MKL_INT []) = vsldSSNewTask;
 	};
 */
+
 	template<class T = double, MKL_INT storage = VSL_SS_MATRIX_STORAGE_ROWS>
 	class SSTask {
 		SSTask(const SSTask&);
 		SSTask operator=(const SSTask&);
 
 		MKL_INT nvar_, nobs_, storage_;
-		std::vector<T> data_;
-//		vector<T> weights_;
-//		vector<MKL_INT> indices_;
+//		std::vector<T> weights_;
+//		std::vector<MKL_INT> indices_;
 		VSLSSTaskPtr p_;
 	public:
 		SSTask(MKL_INT nvar, MKL_INT nobs, const T* data, const T* weights = 0, const MKL_INT* indices = 0)
-			: nvar_(nvar), nobs_(nobs), storage_(storage), data_(data, data + nvar*nobs)
+			: nvar_(nvar), nobs_(nobs), storage_(storage)//, weights_(weights, weights + nvar), indices_(indices, indices + nvar)
 		{
-			MKL_INT status = vsldSSNewTask(&p_, &nvar_, &nobs_, &storage_, const_cast<double*>(&data_[0]), const_cast<double*>(weights), const_cast<MKL_INT*>(indices));
+			MKL_INT status = vsldSSNewTask(&p_, &nvar_, &nobs_, &storage_, const_cast<double*>(data), const_cast<double*>(weights), const_cast<MKL_INT*>(indices));
 //			MKL_INT status = traits<T>::vslSSNewTask(&p_, &nvar, &nobs, &storage_, const_cast<double*>(data), const_cast<double*>(weights), const_cast<MKL_INT*>(indices));
 
 			if (status != VSL_STATUS_OK)
@@ -49,7 +49,7 @@ namespace vsl {
 
 			return *this;
 		}
-		~SSTask()
+		virtual ~SSTask()
 		{
 			if (p_)
 				vslSSDeleteTask(&p_);
@@ -72,7 +72,7 @@ namespace vsl {
 			return vsldSSEditTask(p_, param, data);
 		}
 		// Computes Summary Statistics estimates.
-		int Compute(const unsigned MKL_INT64 params, const MKL_INT method)
+		int Compute(MKL_INT64 params, const MKL_INT method)
 		{
 			MKL_INT status(VSL_STATUS_OK);
 

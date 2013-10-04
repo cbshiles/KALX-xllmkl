@@ -25,5 +25,14 @@
     <ClCompile Include="vslSS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="vsl_ss_ed_enum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vsl_ss_enum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vsl_ss_matrix_enum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
