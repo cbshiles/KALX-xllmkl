@@ -3,6 +3,8 @@
 
 using namespace xll;
 
+#if 0
+// No longer needed.
 // Compute parameter enums
 XLL_ENUM_DOC(VSL_SS_MEAN, VSL_SS_MEAN, CATEGORY, _T("Computes the array of means."), _T("Supports block observations."))
 //XLL_ENUM_DOC(VSL_SS_SUM, VSL_SS_SUM, CATEGORY, _T("Computes the array of sums."), _T("Supports block observations."))
@@ -39,6 +41,8 @@ XLL_ENUM_DOC(VSL_SS_PARAMTR_COR, VSL_SS_PARAMTR_COR, CATEGORY, _T("Computes a pa
 XLL_ENUM_DOC(VSL_SS_STREAM_QUANTS, VSL_SS_STREAM_QUANTS, CATEGORY, _T("Computes quantiles for streaming data."), _T("Supports block observations."))
 //XLL_ENUM_DOC(VSL_SS_MDAD, VSL_SS_MDAD, CATEGORY, _T("Computes median absolute deviation."), _T("Does not support block observations."))
 //XLL_ENUM_DOC(VSL_SS_MNAD, VSL_SS_MNAD, CATEGORY, _T("Computes mean absolute deviation."), _T("Does not support block observations."))
+
+#endif // 0
 
 // Compute method enums
 XLL_ENUM_DOC(VSL_SS_METHOD_FAST, VSL_SS_METHOD_FAST, CATEGORY, _T("Fast method for calculation of the estimates:"), _T("raw/central moments/sums, skewness, kurtosis, variation, variance-covariance/correlation/cross-product matrix"))

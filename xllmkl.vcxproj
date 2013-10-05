@@ -102,7 +102,10 @@
     <ClCompile Include="vslSS.cpp" />
     <ClCompile Include="vsl_ss_ed_enum.cpp" />
     <ClCompile Include="vsl_ss_enum.cpp" />
-    <ClCompile Include="vsl_ss_matrix_enum.cpp" />
+    <ClCompile Include="vsl_ss_matrix_enum.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="xllmkl.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

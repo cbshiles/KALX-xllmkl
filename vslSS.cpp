@@ -4,9 +4,91 @@
 
 using namespace xll;
 
+static AddInX xai_vlsSSCompute(
+	FunctionX(XLL_HANDLEX, _T("?xll_vslSSCompute"), _T("VSL.SSCompute"))
+	.Arg(XLL_FPX, _T("Data"), _T("is an array of data or a handle returned by a call to VSL.SSCompute."))
+	.Arg(XLL_LPOPERX, _T("Param"), _T("is an array of values from the VSL_SS_ED_* enumeration."))
+	.Arg(XLL_LPOPERX, _T("_Method"), _T("is an optional value from the VSL_SS_METHOD_* enumeration. "))
+//	.Arg(XLL_FPX, _T("_Storage"), _T("is an optional storage type from the VSL_SS_MATRIX_STORAGE_* enumeration. "))
+	.Uncalced()
+	.Category(CATEGORY)
+	.FunctionHelp(_T("Returns a handle that can be queried by VSL.SSResult."))
+	.Documentation(
+		_T("If Method is 0 or missing, the statistics will not be computed. ")
+		_T("This allows for nested calls where only the outermost call specifies the compute method. ")
+		_T("</para><para>")
+		_T("The <codeInline>SSNewTask</codeInline> and <codeInline>SSDeleteTask</codeInline> are called ")
+		_T("automatically. Multiple EditTask calls are made if <codeInline>Param</code> is an array. ")
+		_T("Then necessary compute parameter flag is created and used in the call to <codeInline>SSCompute</codeInline> ")
+		_T("if <codeInline>_Method</codeInline> is supplied. ")
+		_T("Use the edit enumerations to get results using <codeInline>VSL.SSResult</codeInline>. ")
+	)
+);
+HANDLEX WINAPI xll_vslSSCompute(const xfp* data, const LPOPERX pParam, const LPOPERX pMethod)
+{
+#pragma XLLEXPORT
+	handlex h;
+
+	try {
+		xll::SSTask* pt;
+
+		if (size(*data) == 1) {
+			pt = h2p<xll::SSTask>(data->array[0]);
+		}
+		else {
+			handle<xll::SSTask> h_(new xll::SSTask(data->columns, data->rows, data->array));
+			pt = h_.ptr();
+		}
+		ensure (pt);
+
+		MKL_INT method = Enum_(*pMethod);
+
+		for (xword i = 0; i < pParam->size(); ++i) {
+			MKL_INT param = Enum_((*pParam)[i]);
+
+			ensure (VSL_STATUS_OK == pt->Compute(param, method));
+		}
+
+		h = p2h<xll::SSTask>(pt);
+	}
+	catch (const std::exception& ex) {
+		XLL_ERROR(ex.what());
+	}
+
+	return h;
+}
+
+static AddInX xai_vlsSSResult(
+	FunctionX(XLL_FPX, _T("?xll_vslSSResult"), _T("VSL.SSResult"))
+	.Arg(XLL_HANDLEX, _T("Handle"), _T("is a handle returned by VSL.SSTask."))
+	.Arg(XLL_LPOPERX, _T("Param"), _T("is a value from the VSL_SS_ED_* enumeration."))
+	.Category(CATEGORY)
+	.FunctionHelp(_T("Returns the result of a computation."))
+	.Documentation(_T(""))
+);
+const xfp* WINAPI xll_vslSSResult(HANDLEX h, const LPOPERX pParam)
+{
+#pragma XLLEXPORT
+	const xfp* p(0);
+
+	try {
+		handle<xll::SSTask> h_(h);
+		ensure (h_);
+
+		p = h_->Result(Enum_(*pParam));
+	}
+	catch (const std::exception& ex) {
+		XLL_ERROR(ex.what());
+	}
+
+	return p;
+}
+#if 0
+#ifdef _DEBUG
+
 //static Auto<OpenX> xao_debug([](void) -> int { _crtBreakAlloc = 7245; return 1; });
 
-#ifdef _DEBUG
+
 static AddInX xai_vlsSSTask(
 	FunctionX(XLL_HANDLEX, _T("?xll_vslSSTask"), _T("VSL.SSTask"))
 	.Arg(XLL_FPX, _T("Data"), _T("is an array of numeric data."))
@@ -112,70 +194,4 @@ HANDLEX WINAPI xll_vslSSTaskCompute(HANDLEX h, LONG param, LONG method)
 }
 
 #endif // _DEBUG
-
-static AddInX xai_vlsSSTaskResult(
-	FunctionX(XLL_FPX, _T("?xll_vslSSTaskResult"), _T("VSL.SSTaskResult"))
-	.Arg(XLL_HANDLEX, _T("Handle"), _T("is a handle returned by VSL.SSTask."))
-	.Arg(XLL_LONGX, _T("Param"), _T("is a value from the VSL_SS_ED_* enumeration."))
-	.Category(CATEGORY)
-	.FunctionHelp(_T("Returns the result of a computation."))
-	.Documentation(_T(""))
-	.Alias(_T("VSL.SSResult"))
-);
-const xfp* WINAPI xll_vslSSTaskResult(HANDLEX h, LONG param)
-{
-#pragma XLLEXPORT
-	const xfp* p(0);
-
-	try {
-		handle<xll::SSTask> h_(h);
-		ensure (h_);
-
-		p = h_->Result(param);
-
-	}
-	catch (const std::exception& ex) {
-		XLL_ERROR(ex.what());
-	}
-
-	return p;
-}
-
-static AddInX xai_vlsSSCompute(
-	FunctionX(XLL_HANDLEX, _T("?xll_vslSSCompute"), _T("VSL.SSCompute"))
-	.Arg(XLL_FPX, _T("Data"), _T("is an array of data."))
-	.Arg(XLL_FPX, _T("Param"), _T("is an array of values from the VSL_SS_ED_* enumeration."))
-	.Arg(XLL_LONGX, _T("Method"), _T("is a value from the VSL_SS_METHOD_* enumeration. "))
-//	.Arg(XLL_FPX, _T("_Storage"), _T("is an optional storage type from the VSL_SS_MATRIX_STORAGE_* enumeration. "))
-	.Uncalced()
-	.Category(CATEGORY)
-	.FunctionHelp(_T("Returns a handle that can be queried by VSL.SSResult."))
-	.Documentation(_T(""))
-);
-HANDLEX WINAPI xll_vslSSCompute(const xfp* data, const xfp* param, LONG method)
-{
-#pragma XLLEXPORT
-	handlex h;
-
-	try {
-		handle<xll::SSTask> h_(new xll::SSTask(data->columns, data->rows, data->array));
-		ensure (h_);
-
-		if (!method)
-			method = VSL_SS_METHOD_FAST;
-
-
-		for (xword i = 0; i < size(*param); ++i) {
-			int pi = static_cast<MKL_INT>(index(*param, i));
-
-			ensure (VSL_STATUS_OK == h_->Compute(pi, method));
-		}
-
-		h = h_.get();
-	}
-	catch (const std::exception& ex) {
-		XLL_ERROR(ex.what());
-	}
-
-	return h;
-}
+#endif // 0

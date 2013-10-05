@@ -15,6 +15,7 @@ namespace vsl {
 		static int (*vslSSNewTask)(VSLSSTaskPtr* , MKL_INT* , MKL_INT* , MKL_INT* , double [], double [], MKL_INT []) = vsldSSNewTask;
 	};
 */
+	extern MKL_INT status; // global last status
 
 	template<class T = double, MKL_INT storage = VSL_SS_MATRIX_STORAGE_ROWS>
 	class SSTask {
@@ -29,8 +30,8 @@ namespace vsl {
 		SSTask(MKL_INT nvar, MKL_INT nobs, const T* data, const T* weights = 0, const MKL_INT* indices = 0)
 			: nvar_(nvar), nobs_(nobs), storage_(storage)//, weights_(weights, weights + nvar), indices_(indices, indices + nvar)
 		{
-			MKL_INT status = vsldSSNewTask(&p_, &nvar_, &nobs_, &storage_, const_cast<double*>(data), const_cast<double*>(weights), const_cast<MKL_INT*>(indices));
-//			MKL_INT status = traits<T>::vslSSNewTask(&p_, &nvar, &nobs, &storage_, const_cast<double*>(data), const_cast<double*>(weights), const_cast<MKL_INT*>(indices));
+			status = vsldSSNewTask(&p_, &nvar_, &nobs_, &storage_, const_cast<double*>(data), const_cast<double*>(weights), const_cast<MKL_INT*>(indices));
+//			status = traits<T>::vslSSNewTask(&p_, &nvar, &nobs, &storage_, const_cast<double*>(data), const_cast<double*>(weights), const_cast<MKL_INT*>(indices));
 
 			if (status != VSL_STATUS_OK)
 				throw std::runtime_error("vsldSSNewTask: failed");
@@ -65,11 +66,11 @@ namespace vsl {
 		// Modifies address of an input/output parameter in the task descriptor.
 		int Edit(MKL_INT param, const MKL_INT* data)
 		{
-			return vsliSSEditTask(p_, param, data);
+			return status = vsliSSEditTask(p_, param, data);
 		}
 		int Edit(MKL_INT param, const double* data)
 		{
-			return vsldSSEditTask(p_, param, data);
+			return status = vsldSSEditTask(p_, param, data);
 		}
 		// Computes Summary Statistics estimates.
 		int Compute(MKL_INT64 params, const MKL_INT method)

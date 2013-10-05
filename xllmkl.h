@@ -16,6 +16,23 @@ typedef xll::traits<XLOPERX>::xfp xfp;
 
 // keep track of results in an FP
 namespace xll {
+
+	// convert enum strings to ints
+	inline MKL_INT Enum_(const OPERX& e)
+	{
+		OPERX e_(e);
+
+		if (e_.xltype == xltypeStr)
+			e_ = ExcelX(xlfEvaluate, ExcelX(xlfConcatenate, OPERX(_T("=")), e_, OPERX(_T("()"))));
+		else if (e_.xltype == xltypeMissing)
+			e_ = 0;
+
+		ensure (e_.xltype == xltypeNum);
+
+		return static_cast<MKL_INT>(e_.val.num);
+	}
+
+
 	class SSTask : public vsl::SSTask<> {
 		SSTask(const SSTask&);
 		SSTask& operator=(const SSTask&);
@@ -132,7 +149,7 @@ namespace xll {
 		}
 
 	private:
-		// add FP to map for results
+		// add FP to map to hold results
 		MKL_INT add(MKL_INT pi, MKL_INT r, MKL_INT c, double d = std::numeric_limits<double>::quiet_NaN()) 
 		{
 			MKL_INT status(VSL_STATUS_OK);
@@ -147,6 +164,7 @@ namespace xll {
 			return status;
 		}
 
+		// map Edit to Compute tasks
 		static MKL_INT64 mask(MKL_INT param) {
 			static struct params_ { MKL_INT64 mask; } params[] = {
 				{0}, // not used
@@ -160,9 +178,9 @@ namespace xll {
 				{VSL_SS_MEAN|VSL_SS_2R_MOM}, //#define VSL_SS_ED_2R_MOM                                8
 				{VSL_SS_MEAN|VSL_SS_2R_MOM|VSL_SS_3R_MOM}, //#define VSL_SS_ED_3R_MOM                                9
 				{VSL_SS_MEAN|VSL_SS_2R_MOM|VSL_SS_3R_MOM|VSL_SS_4R_MOM}, //#define VSL_SS_ED_4R_MOM                               10
-				{VSL_SS_MEAN|VSL_SS_2C_MOM}, //#define VSL_SS_ED_2C_MOM                               11
-				{VSL_SS_MEAN|VSL_SS_2C_MOM|VSL_SS_3C_MOM}, //define VSL_SS_ED_3C_MOM                               12
-				{VSL_SS_MEAN|VSL_SS_2C_MOM|VSL_SS_3C_MOM|VSL_SS_4C_MOM}, //#define VSL_SS_ED_4C_MOM                               13
+				{VSL_SS_MEAN|VSL_SS_2R_MOM|VSL_SS_2C_MOM}, //#define VSL_SS_ED_2C_MOM                               11
+				{VSL_SS_MEAN|VSL_SS_2R_MOM|VSL_SS_3R_MOM|VSL_SS_3C_MOM}, //define VSL_SS_ED_3C_MOM                               12
+				{VSL_SS_MEAN|VSL_SS_2R_MOM|VSL_SS_3R_MOM|VSL_SS_4R_MOM|VSL_SS_4C_MOM}, //#define VSL_SS_ED_4C_MOM                               13
 				{VSL_SS_MEAN|VSL_SS_2R_MOM|VSL_SS_3R_MOM|VSL_SS_4R_MOM|VSL_SS_KURTOSIS}, //#define VSL_SS_ED_KURTOSIS                             14
 				{VSL_SS_MEAN|VSL_SS_2R_MOM|VSL_SS_3R_MOM|VSL_SS_SKEWNESS}, //#define VSL_SS_ED_SKEWNESS                             15
 				{VSL_SS_MIN}, //#define VSL_SS_ED_MIN                                  16
