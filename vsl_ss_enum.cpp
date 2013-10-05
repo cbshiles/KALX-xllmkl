@@ -1,4 +1,5 @@
 // vsl_ss_enum.cpp - VSL_SS_* enumerations for Compute
+// Copyright (c) KALX, LLC. All rights reserved. No warranty is made.
 #include "xllmkl.h"
 
 using namespace xll;

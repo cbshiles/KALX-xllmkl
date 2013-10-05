@@ -36,7 +36,7 @@ namespace vsl {
 			if (status != VSL_STATUS_OK)
 				throw std::runtime_error("vsldSSNewTask: failed");
 		}
-		SSTask(SSTask&& t)
+/*		SSTask(SSTask&& t)
 		{
 			p_ = t.p_;
 			t.p_ = 0;
@@ -50,7 +50,7 @@ namespace vsl {
 
 			return *this;
 		}
-		virtual ~SSTask()
+*/		virtual ~SSTask()
 		{
 			if (p_)
 				vslSSDeleteTask(&p_);
@@ -60,8 +60,6 @@ namespace vsl {
 		{
 			return nvar_;
 		}
-
-		// some calculations take matrices not rows!!!
 
 		// Modifies address of an input/output parameter in the task descriptor.
 		int Edit(MKL_INT param, const MKL_INT* data)

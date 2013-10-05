@@ -3,7 +3,7 @@
 // Uncomment the following line to use features for Excel2007 and above.
 #pragma once
 #include "vslSS.h"
-//#define EXCEL12
+#define EXCEL12
 #include "xll/xll.h"
 
 #ifndef CATEGORY
@@ -32,6 +32,23 @@ namespace xll {
 		return static_cast<MKL_INT>(e_.val.num);
 	}
 
+	// get pointer to array if in memory
+	inline xfp* fetch(xfp* pa)
+	{
+		xfp* pa_(0);
+
+		if (size(*pa) == 1) {
+			xll::handle<FPX> a(pa->array[0]);
+			ensure (a);
+
+			pa_ = reinterpret_cast<xfp*>(a.ptr());
+		}
+		else {
+			pa_ = pa;
+		}
+		
+		return pa_;
+	}
 
 	class SSTask : public vsl::SSTask<> {
 		SSTask(const SSTask&);

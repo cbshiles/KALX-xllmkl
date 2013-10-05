@@ -1,4 +1,5 @@
 // vsl_ss_ed_enum - VSL_SS_ED_* enumerations for EditTask
+// Copyright (c) KALX, LLC. All rights reserved. No warranty is made.
 #include "xllmkl.h"
 
 using namespace xll;

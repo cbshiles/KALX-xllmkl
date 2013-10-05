@@ -34,5 +34,8 @@
     <ClCompile Include="vsl_ss_matrix_enum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="blas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

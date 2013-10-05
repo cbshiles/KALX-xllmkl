@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xllmkl", "xllmkl.vcxproj", "{F12195A2-22EF-42D2-856E-166BF3F698B3}"
 EndProject
 Global
@@ -9,10 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F12195A2-22EF-42D2-856E-166BF3F698B3}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F12195A2-22EF-42D2-856E-166BF3F698B3}.Debug|Win32.Build.0 = Debug|Win32
-		{F12195A2-22EF-42D2-856E-166BF3F698B3}.Release|Win32.ActiveCfg = Release|Win32
-		{F12195A2-22EF-42D2-856E-166BF3F698B3}.Release|Win32.Build.0 = Release|Win32
+		{F12195A2-22EF-42D2-856E-166BF3F698B3}.Debug|Win32.ActiveCfg = Debug|x64
+		{F12195A2-22EF-42D2-856E-166BF3F698B3}.Debug|Win32.Build.0 = Debug|x64
+		{F12195A2-22EF-42D2-856E-166BF3F698B3}.Release|Win32.ActiveCfg = Debug|x64
+		{F12195A2-22EF-42D2-856E-166BF3F698B3}.Release|Win32.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

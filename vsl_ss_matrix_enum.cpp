@@ -1,4 +1,5 @@
 // vsl_ss_matrix_enum.cpp - VSL_SS_MATRIX_* enumerations
+// Copyright (c) KALX, LLC. All rights reserved. No warranty is made.
 #include "xllmkl.h"
 
 using namespace xll;
