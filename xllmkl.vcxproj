@@ -143,7 +143,7 @@
     <Link>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>$(ProgramFiles)\KALX\xll\$(PlatformToolset)\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -177,11 +177,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="vslSS.h" />
+    <ClInclude Include="vslStream.h" />
     <ClInclude Include="xllmkl.h" />
+    <ClInclude Include="xllSS.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="blas.cpp" />
+    <ClCompile Include="xllblas.cpp" />
     <ClCompile Include="vslSS.cpp" />
+    <ClCompile Include="vslStream.cpp" />
     <ClCompile Include="vsl_ss_ed_enum.cpp" />
     <ClCompile Include="vsl_ss_enum.cpp" />
     <ClCompile Include="vsl_ss_matrix_enum.cpp">

@@ -1,6 +1,6 @@
 // vslSS.cpp - Summary Statistics
 // Copyright (c) KALX, LLC. All rights reserved. No warranty is made.
-#include "xllmkl.h"
+#include "xllSS.h"
 
 using namespace xll;
 
@@ -31,26 +31,26 @@ HANDLEX WINAPI xll_vslSSCompute(const xfp* data, const LPOPERX pParam, const LPO
 	handlex h;
 
 	try {
-		xll::SSTask* pt;
+		xll::SSTask* ptask;
 
 		if (size(*data) == 1) {
-			pt = h2p<xll::SSTask>(data->array[0]);
+			ptask = h2p<xll::SSTask>(data->array[0]);
 		}
 		else {
 			handle<xll::SSTask> h_(new xll::SSTask(data->columns, data->rows, data->array));
-			pt = h_.ptr();
+			ptask = h_.ptr();
 		}
-		ensure (pt);
+		ensure (ptask);
 
 		MKL_INT method = Enum_(*pMethod);
 
 		for (xword i = 0; i < pParam->size(); ++i) {
 			MKL_INT param = Enum_((*pParam)[i]);
 
-			ensure (VSL_STATUS_OK == pt->Compute(param, method));
+			ensure (VSL_STATUS_OK == ptask->Compute(param, method));
 		}
 
-		h = p2h<xll::SSTask>(pt);
+		h = p2h<xll::SSTask>(ptask);
 	}
 	catch (const std::exception& ex) {
 		XLL_ERROR(ex.what());
@@ -67,16 +67,16 @@ static AddInX xai_vlsSSResult(
 	.FunctionHelp(_T("Returns the result of a computation."))
 	.Documentation(_T(""))
 );
-const xfp* WINAPI xll_vslSSResult(HANDLEX h, const LPOPERX pParam)
+const xfp* WINAPI xll_vslSSResult(HANDLEX task, const LPOPERX pParam)
 {
 #pragma XLLEXPORT
 	const xfp* p(0);
 
 	try {
-		handle<xll::SSTask> h_(h);
-		ensure (h_);
+		handle<xll::SSTask> task_(task);
+		ensure (task_);
 
-		p = h_->Result(Enum_(*pParam));
+		p = task_->Result(Enum_(*pParam));
 	}
 	catch (const std::exception& ex) {
 		XLL_ERROR(ex.what());

@@ -2,7 +2,7 @@
 // Copyright (c) KALX, LLC. All rights reserved. No warranty is made.
 #pragma once
 #include <vector>
-#include <mkl.h>
+#include <mkl_vsl.h>
 
 namespace vsl {
 /*
@@ -54,6 +54,11 @@ namespace vsl {
 		{
 			if (p_)
 				vslSSDeleteTask(&p_);
+		}
+
+		operator VSLSSTaskPtr()
+		{
+			return p_;
 		}
 
 		MKL_INT dimen() const

@@ -17,6 +17,12 @@
     <ClInclude Include="vslSS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="vslStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xllSS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="xllmkl.cpp">
@@ -34,7 +40,10 @@
     <ClCompile Include="vsl_ss_matrix_enum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="blas.cpp">
+    <ClCompile Include="vslStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="xllblas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
